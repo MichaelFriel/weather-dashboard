@@ -1,0 +1,68 @@
+/* Header */
+
+h1 {
+    color: aliceblue;
+}
+
+.background {
+background-image: linear-gradient(to right, purple, #0096FF, rgb(133, 133, 193),  aliceblue);
+height: 15vh;
+}
+
+.form-inline {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.input-group {
+    width: 100%;
+    height: 100px;
+}
+
+.weather-search {
+    width: 100%;
+    height: 35px;
+}
+
+.forecast {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    
+}
+
+.forecast-card {
+background-color: #002244;
+color: aliceblue;
+width: 18%;
+padding: 10px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+#search-button {
+    background-color: #0096FF;
+}
+
+#search-form {
+    width: 100%;
+}
+
+#today {
+    border: 1px solid black;
+    margin-left: 10px;
+    margin-top: 20px;
+    padding-left: 15px;
+}
+
+#forecast {
+    margin: 10px;
+    
+}
