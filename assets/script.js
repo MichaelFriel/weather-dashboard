@@ -1,11 +1,4 @@
 
-// var long = -1.5486
-// var lat = 52.4832224
-// var city = "london"
-// const longLatUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&appid=2ad7462410efb4917d0b0e1cf80ba5f6`
-// const locationNameUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=2ad7462410efb4917d0b0e1cf80ba5f6`
-// const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=2ad7462410efb4917d0b0e1cf80ba5f6`
-
 
 // New locationName function takes city as a parameter and fetches data from the Geocoding API, returning the longitude and latitude.
 
@@ -48,27 +41,34 @@ return response.json();
 
 }
 
-// locationName function is called and takes the city as an argument and then passes the result to the fiveDayForecast function.
-
-locationName("London")
-    .then(({ longitude, latitude }) => fiveDayForecast(longitude, latitude))
-    
-
 
  
 //   // This is the fetch for today's weather
 
+function currentWeather (longitude, latitude) {
 
-// fetch(currentWeatherUrl)
-// .then((response) => {
-//     return response.json();
-//   })
-//   .then((data) => {
+const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=2ad7462410efb4917d0b0e1cf80ba5f6`
 
-//     //   console.log(data);
-//   })
+fetch(currentWeatherUrl)
+.then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+
+      console.log(data);
+  })
+
+}
+
+// locationName function is called and takes the city as an argument and then passes the result to the fiveDayForecast function.
 
 
-
-
+  locationName("barcelona")
+  .then(({ longitude, latitude }) => {
+    return Promise.all([
+        fiveDayForecast(longitude, latitude),
+        currentWeather(longitude, latitude)
+    ]);
+})
+  
 
