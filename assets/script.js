@@ -1,12 +1,20 @@
 $(document).ready(function() {
 
+    var locations = JSON.parse(localStorage.getItem("Cities")) || [];
 
 // New locationName function takes city as a parameter and fetches data from the Geocoding API, returning the longitude and latitude.
 
 $('form').submit(function(event) {
     event.preventDefault();
     var city = $('#search-input').val()
+
+  
+    locations.push(city);
+
+    localStorage.setItem("Cities", JSON.stringify(locations))
     
+renderButtons()
+
    if (city) {
    locationName(city) 
     .then(({ longitude, latitude }) => {
@@ -21,7 +29,6 @@ else {
 }
 
 
-// var temp = $('<p>').text("Temp: data.)
 }
 
 )
@@ -66,7 +73,25 @@ return response.json();
 
 const currentDay = dayjs()
 
-//Day One
+let indexes = [7, 15, 23, 31, 39]
+additionalDay = 0
+
+for (let i=0; i<indexes.length; i++) {
+    const dayPlusOne = currentDay.add(additionalDay++, 'day')
+const formattedDayPlusOne = dayPlusOne.format('DD/MM/YYYY')
+ const dayPlusOneTemp = (fiveDayData.list[indexes[i]].main.temp - 273.15).toFixed(2)
+ const dayOneTemp = $('<p>').text(`Temp: ${dayPlusOneTemp}\u00B0C`)
+ const dayPlusOneWind = fiveDayData.list[indexes[i]].wind.speed
+ const dayOneWind = $('<p>').text(`Wind: ${dayPlusOneWind} KPH`)
+ const dayPlusOneHumidity = fiveDayData.list[indexes[i]].main.humidity
+ const dayOneHumidity = $('<p>').text(`Humidity: ${dayPlusOneHumidity}%`)
+
+var dayOneWeather = $(`.forecast-card-${indexes[i]}`).html(`<h4>${formattedDayPlusOne}</h4>`)
+
+$(dayOneWeather).append(dayOneTemp, dayOneWind, dayOneHumidity);
+}
+
+Day One
 const dayPlusOne = currentDay.add(1, 'day')
 const formattedDayPlusOne = dayPlusOne.format('DD/MM/YYYY')
  const dayPlusOneTemp = (fiveDayData.list[7].main.temp - 273.15).toFixed(2)
@@ -76,7 +101,7 @@ const formattedDayPlusOne = dayPlusOne.format('DD/MM/YYYY')
  const dayPlusOneHumidity = fiveDayData.list[7].main.humidity
  const dayOneHumidity = $('<p>').text(`Humidity: ${dayPlusOneHumidity}%`)
 
-var dayOneWeather = $('.forecast-card-1').html(`<h4>${formattedDayPlusOne}</h4>`)
+var dayOneWeather = $(`.forecast-card-${indexes[i]}`).html(`<h4>${formattedDayPlusOne}</h4>`)
 
 $(dayOneWeather).append(dayOneTemp, dayOneWind, dayOneHumidity);
 
@@ -96,7 +121,6 @@ var dayTwoWeather = $('.forecast-card-2').html(`<h4>${formattedDayPlusTwo}</h4>`
 $(dayTwoWeather).append(dayTwoTemp, dayTwoWind, dayTwoHumidity);
 
 //Day Three
-
 
 
 const dayPlusThree = currentDay.add(3, 'day')
@@ -145,21 +169,10 @@ var dayFiveWeather = $('.forecast-card-5').html(`<h4>${formattedDayPlusFive}</h4
 
 $(dayFiveWeather).append(dayFiveTemp, dayFiveWind, dayFiveHumidity);
 
-
-{/* <div class="col-2 forecast-card">
-              <h4>Date</h4>
-              <p>😁</p>
-              <p>Temp: X</p>
-              <p>Wind: X</p>
-              <p>Humidity: X</p>
-            </div> */}
-
     })
 
 }
 
-
- 
 //   // This is the fetch for today's weather and current weather HTML
 
 function currentWeather (longitude, latitude) {
@@ -181,11 +194,15 @@ fetch(currentWeatherUrl)
     var currentWind = $('<p>').text(`Wind: ${wind} KPH`)
     var humidity = currentData.main.humidity
     var currentHumidity = $('<p>').text(`Humidity: ${humidity}%`)
-    var weatherIcon = currentData.weather.icon
+    var weatherIcon = currentData.weather[0].icon
     var currentWeatherIcon = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`
+    var weatherIconData = $('<img>').attr("src", JSON.stringify(currentWeatherIcon))
+console.log(weatherIconData)
+console.log(weatherIconData[0].attributes[0].textContent)
+    var currentWeather = $('#today').html(`<h3>${city} (${formattedTime}) ${weatherIconData}</h3>`)
+    
 
-
-    var currentWeather = $('#today').html(`<h3>${city} (${formattedTime})</h3>`)
+    
     
     $(currentWeather).append(currentTemp, currentWind, currentHumidity)
    
@@ -194,69 +211,43 @@ fetch(currentWeatherUrl)
 }
 
 
+// Dynamically adding searched items.
 
+function renderButtons () {
 
+    $('#history').empty()
 
+for (let i=0; i<locations.length; i++) {
 
+    var location = $('<button>')
+    location.attr('type', "submit")
+    location.addClass("btn search-button d-block")
+    location.attr('id', locations[i])
+    location.text(locations[i])
+    $('#history').append(location)
+    location.click(function () {
+        let city = this.textContent
+        
+        if (city) {
+            locationName(city) 
+             .then(({ longitude, latitude }) => {
+               return Promise.all([
+                   fiveDayForecast(longitude, latitude),
+                   currentWeather(longitude, latitude)
+               ]);
+           })
+         }
+    })
+}
+}
 
-
-
-
-
-
-// 
-// <section id="today" class="" role="region" aria-live="polite">
-//           <h3>Location & Day</h3>
-//           <p>Temp: X</p>
-//           <p>Wind: X</p>
-//           <p>Humidity: X</p>
-//         </section>
-//         <section id="forecast" class="row mt-3" role="region" aria-live="polite">
-//           <h3>5 Day Forecast</h3>
-//           <div class="row forecast">
-//             <div class="col-2 forecast-card">
-//               <h4>Date</h4>
-//               <p>😁</p>
-//               <p>Temp: X</p>
-//               <p>Wind: X</p>
-//               <p>Humidity: X</p>
-//             </div>
-//             <div class="col-2 forecast-card">
-//               <h4>Date</h4>
-//               <p>😁</p>
-//               <p>Temp: X</p>
-//               <p>Wind: X</p>
-//               <p>Humidity: X</p>
-//             </div>
-//             <div class="col-2 forecast-card">
-//               <h4>Date</h4>
-//               <p>😁</p>
-//               <p>Temp: X</p>
-//               <p>Wind: X</p>
-//               <p>Humidity: X</p>
-//             </div>
-//             <div class="col-2 forecast-card">
-//               <h4>Date</h4>
-//               <p>😁</p>
-//               <p>Temp: X</p>
-//               <p>Wind: X</p>
-//               <p>Humidity: X</p>
-//             </div>
-//             <div class="col-2 forecast-card">
-//               <h4>Date</h4>
-//               <p>😁</p>
-//               <p>Temp: X</p>
-//               <p>Wind: X</p>
-//               <p>Humidity: X</p>
-//             </div>
-//           </div>
-//         </section>
-//       </div>
-//     </div>
-//   </div>
-
-// Add click event to search button
-
+renderButtons()
+    
+  
+    // Calling renderButtons which handles the processing of our locations array
+    
+  
+  
 
 
 
