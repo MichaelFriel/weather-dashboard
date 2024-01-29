@@ -69,12 +69,12 @@ return response.json();
     .then((fiveDayData) => {
     console.log(fiveDayData);
 
-// This should probably be in a for loop
+// Create the blocks and cycle through 5 times, adding a new day each time.
 
 const currentDay = dayjs()
 
 let indexes = [7, 15, 23, 31, 39]
-additionalDay = 0
+additionalDay = 1
 
 for (let i=0; i<indexes.length; i++) {
     const dayPlusOne = currentDay.add(additionalDay++, 'day')
@@ -91,83 +91,6 @@ var dayOneWeather = $(`.forecast-card-${indexes[i]}`).html(`<h4>${formattedDayPl
 $(dayOneWeather).append(dayOneTemp, dayOneWind, dayOneHumidity);
 }
 
-Day One
-const dayPlusOne = currentDay.add(1, 'day')
-const formattedDayPlusOne = dayPlusOne.format('DD/MM/YYYY')
- const dayPlusOneTemp = (fiveDayData.list[7].main.temp - 273.15).toFixed(2)
- const dayOneTemp = $('<p>').text(`Temp: ${dayPlusOneTemp}\u00B0C`)
- const dayPlusOneWind = fiveDayData.list[7].wind.speed
- const dayOneWind = $('<p>').text(`Wind: ${dayPlusOneWind} KPH`)
- const dayPlusOneHumidity = fiveDayData.list[7].main.humidity
- const dayOneHumidity = $('<p>').text(`Humidity: ${dayPlusOneHumidity}%`)
-
-var dayOneWeather = $(`.forecast-card-${indexes[i]}`).html(`<h4>${formattedDayPlusOne}</h4>`)
-
-$(dayOneWeather).append(dayOneTemp, dayOneWind, dayOneHumidity);
-
-// Day Two
-const dayPlusTwo = currentDay.add(2, 'day')
-const formattedDayPlusTwo = dayPlusTwo.format('DD/MM/YYYY')
-
-const dayPlusTwoTemp = (fiveDayData.list[15].main.temp - 273.15).toFixed(2)
- const dayTwoTemp = $('<p>').text(`Temp: ${dayPlusTwoTemp}\u00B0C`)
- const dayPlusTwoWind = fiveDayData.list[15].wind.speed
- const dayTwoWind = $('<p>').text(`Wind: ${dayPlusTwoWind} KPH`)
- const dayPlusTwoHumidity = fiveDayData.list[15].main.humidity
- const dayTwoHumidity = $('<p>').text(`Humidity: ${dayPlusTwoHumidity}%`)
-
-var dayTwoWeather = $('.forecast-card-2').html(`<h4>${formattedDayPlusTwo}</h4>`)
-
-$(dayTwoWeather).append(dayTwoTemp, dayTwoWind, dayTwoHumidity);
-
-//Day Three
-
-
-const dayPlusThree = currentDay.add(3, 'day')
-const formattedDayPlusThree = dayPlusThree.format('DD/MM/YYYY')
-    
-const dayPlusThreeTemp = (fiveDayData.list[23].main.temp - 273.15).toFixed(2)
-const dayThreeTemp = $('<p>').text(`Temp: ${dayPlusThreeTemp}\u00B0C`)
-const dayPlusThreeWind = fiveDayData.list[23].wind.speed
-const dayThreeWind = $('<p>').text(`Wind: ${dayPlusThreeWind} KPH`)
-const dayPlusThreeHumidity = fiveDayData.list[23].main.humidity
-const dayThreeHumidity = $('<p>').text(`Humidity: ${dayPlusThreeHumidity}%`)
-
-var dayThreeWeather = $('.forecast-card-3').html(`<h4>${formattedDayPlusThree}</h4>`)
-
-$(dayThreeWeather).append(dayThreeTemp, dayThreeWind, dayThreeHumidity);
-
-// Day Four
-
-const dayPlusFour = currentDay.add(4, 'day')
-const formattedDayPlusFour = dayPlusFour.format('DD/MM/YYYY')
-    
-const dayPlusFourTemp = (fiveDayData.list[31].main.temp - 273.15).toFixed(2)
-const dayFourTemp = $('<p>').text(`Temp: ${dayPlusFourTemp}\u00B0C`)
-const dayPlusFourWind = fiveDayData.list[31].wind.speed
-const dayFourWind = $('<p>').text(`Wind: ${dayPlusFourWind} KPH`)
-const dayPlusFourHumidity = fiveDayData.list[31].main.humidity
-const dayFourHumidity = $('<p>').text(`Humidity: ${dayPlusFourHumidity}%`)
-
-var dayFourWeather = $('.forecast-card-4').html(`<h4>${formattedDayPlusFour}</h4>`)
-
-$(dayFourWeather).append(dayFourTemp, dayFourWind, dayFourHumidity);
-
-// Day Five
-
-     const dayPlusFive = currentDay.add(5, 'day')
-const formattedDayPlusFive = dayPlusFive.format('DD/MM/YYYY')
-    
-const dayPlusFiveTemp = (fiveDayData.list[39].main.temp - 273.15).toFixed(2)
-const dayFiveTemp = $('<p>').text(`Temp: ${dayPlusFiveTemp}\u00B0C`)
-const dayPlusFiveWind = fiveDayData.list[39].wind.speed
-const dayFiveWind = $('<p>').text(`Wind: ${dayPlusFiveWind} KPH`)
-const dayPlusFiveHumidity = fiveDayData.list[39].main.humidity
-const dayFiveHumidity = $('<p>').text(`Humidity: ${dayPlusFiveHumidity}%`)
-
-var dayFiveWeather = $('.forecast-card-5').html(`<h4>${formattedDayPlusFive}</h4>`)
-
-$(dayFiveWeather).append(dayFiveTemp, dayFiveWind, dayFiveHumidity);
 
     })
 
