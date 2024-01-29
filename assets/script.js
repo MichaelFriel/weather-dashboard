@@ -29,7 +29,7 @@ else {
 // New locationName function takes city as a parameter and fetches data from the Geocoding API, returning the longitude and latitude.
 
 function locationName (city) {
-    const locationNameUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=2ad7462410efb4917d0b0e1cf80ba5f6`
+    const locationNameUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=2ad7462410efb4917d0b0e1cf80ba5f6`
 
    return fetch(locationNameUrl)
     .then((response) => {
