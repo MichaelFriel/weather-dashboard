@@ -1,13 +1,30 @@
-/* Header */
+/* Elements */
 
 h1 {
     color: aliceblue;
 }
 
+button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+aside {
+    max-width: 50vw;
+    
+}
+
+
+/* Header */
+
 .background {
 background-image: linear-gradient(to right, purple, #0096FF, rgb(133, 133, 193),  aliceblue);
 height: 15vh;
 }
+
+/* Form Input  */
 
 .form-inline {
     display: block;
@@ -26,26 +43,27 @@ height: 15vh;
     height: 35px;
 }
 
+/* Cards */
+
 .forecast {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around; 
     flex-wrap: wrap;
+    align-items: flex-start; 
+    align-content: flex-start; 
+    gap: 10px; /
     
 }
 
 .forecast-card {
 background-color: #002244;
 color: aliceblue;
-width: 18%;
+max-width: 18%;
 padding: 10px;
+min-width: 150px;
 }
 
-button {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
+/* IDs */
 
 #search-button {
     background-color: #0096FF;
@@ -70,4 +88,43 @@ button {
 #forecast {
     margin: 10px;
     
+}
+
+/* Media query for smaller screens */
+
+@media (max-width: 990px) {
+
+    aside {
+        margin: auto;
+    }
+
+        .forecast-card {
+            min-width: 55%; 
+            margin: auto;
+    }
+}
+
+@media (max-width: 700px) {
+    .forecast-card {
+        min-width: 60%; 
+        margin: auto;
+}
+}
+
+@media (max-width: 600px) {
+
+    aside {
+        max-width: 100%; 
+    }
+}
+
+
+
+
+
+
+@media (max-width: 480px) {
+    .forecast-card {
+        min-width: 100%; 
+}
 }
