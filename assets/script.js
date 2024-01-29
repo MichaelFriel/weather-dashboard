@@ -1,10 +1,12 @@
 $(document).ready(function() {
 
+
 // New locationName function takes city as a parameter and fetches data from the Geocoding API, returning the longitude and latitude.
 
 $('form').submit(function(event) {
     event.preventDefault();
     var city = $('#search-input').val()
+    
    if (city) {
    locationName(city) 
     .then(({ longitude, latitude }) => {
@@ -16,7 +18,11 @@ $('form').submit(function(event) {
 }
 else {
     alert("You need to enter a City Name")
-}}
+}
+
+
+// var temp = $('<p>').text("Temp: data.)
+}
 
 )
 
@@ -62,7 +68,7 @@ return response.json();
 
 
  
-//   // This is the fetch for today's weather
+//   // This is the fetch for today's weather and current weather HTML
 
 function currentWeather (longitude, latitude) {
 
@@ -74,23 +80,88 @@ fetch(currentWeatherUrl)
   })
   .then((currentData) => {
 
-      console.log(currentData);
+    var time = dayjs()
+    var formattedTime = time.format("DD/MM/YYYY")
+    var temp = (currentData.main.temp - 273.15).toFixed(2)
+    var city = currentData.name
+    var currentTemp = $('<p>').text(`Temp: ${temp}\u00B0C`)
+    var wind = (currentData.wind.speed).toFixed(1)
+    var currentWind = $('<p>').text(`Wind: ${wind} KPH`)
+    var humidity = currentData.main.humidity
+    var currentHumidity = $('<p>').text(`Humidity: ${humidity}%`)
+    var weatherIcon = currentData.weather.icon
+    var currentWeatherIcon = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`
+
+
+    var currentWeather = $('#today').html(`<h3>${city} (${formattedTime})</h3><p>`)
+    
+    $(currentWeather).append(currentTemp, currentWind, currentHumidity)
+   
   })
 
 }
 
-// var city = $('#search-button').val()
-
-
-// locationName function is called and takes the city as an argument and then passes the result to the fiveDayForecast function.
 
 
 
 
 
-// Add function for creating HTML with jQuery
 
 
+
+
+
+
+// 
+// <section id="today" class="" role="region" aria-live="polite">
+//           <h3>Location & Day</h3>
+//           <p>Temp: X</p>
+//           <p>Wind: X</p>
+//           <p>Humidity: X</p>
+//         </section>
+//         <section id="forecast" class="row mt-3" role="region" aria-live="polite">
+//           <h3>5 Day Forecast</h3>
+//           <div class="row forecast">
+//             <div class="col-2 forecast-card">
+//               <h4>Date</h4>
+//               <p>😁</p>
+//               <p>Temp: X</p>
+//               <p>Wind: X</p>
+//               <p>Humidity: X</p>
+//             </div>
+//             <div class="col-2 forecast-card">
+//               <h4>Date</h4>
+//               <p>😁</p>
+//               <p>Temp: X</p>
+//               <p>Wind: X</p>
+//               <p>Humidity: X</p>
+//             </div>
+//             <div class="col-2 forecast-card">
+//               <h4>Date</h4>
+//               <p>😁</p>
+//               <p>Temp: X</p>
+//               <p>Wind: X</p>
+//               <p>Humidity: X</p>
+//             </div>
+//             <div class="col-2 forecast-card">
+//               <h4>Date</h4>
+//               <p>😁</p>
+//               <p>Temp: X</p>
+//               <p>Wind: X</p>
+//               <p>Humidity: X</p>
+//             </div>
+//             <div class="col-2 forecast-card">
+//               <h4>Date</h4>
+//               <p>😁</p>
+//               <p>Temp: X</p>
+//               <p>Wind: X</p>
+//               <p>Humidity: X</p>
+//             </div>
+//           </div>
+//         </section>
+//       </div>
+//     </div>
+//   </div>
 
 // Add click event to search button
 
