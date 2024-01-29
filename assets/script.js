@@ -2,6 +2,12 @@ $(document).ready(function() {
 
 var locations = JSON.parse(localStorage.getItem("Cities")) || [];
 
+$('#empty-button').click(function () {
+    $('#history').empty()
+    locations = []
+} 
+) 
+
 $('form').submit(function(event) {
     event.preventDefault();
     $('#forecast-container').empty()
@@ -165,6 +171,8 @@ for (let i=0; i<locations.length; i++) {
 
 renderButtons()
     
+
+// Remove History if Empty button is clicked
 
 
 }

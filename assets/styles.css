@@ -51,6 +51,10 @@ button {
     background-color: #0096FF;
 }
 
+#empty-button {
+    background-color: red;
+}
+
 #search-form {
     width: 100%;
 }
