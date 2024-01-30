@@ -3,8 +3,8 @@ $(document).ready(function() {
 var locations = JSON.parse(localStorage.getItem("Cities")) || [];
 
 $('#empty-button').click(function () {
-    $('#history').empty()
-    locations = []
+    $('#history').empty();
+    locations = [];
 } 
 ) 
 
@@ -75,15 +75,15 @@ for (let i=0; i<indexes.length; i++) {
     
     const dayPlusOne = currentDay.add(additionalDay++, 'day')
 const formattedDayPlusOne = dayPlusOne.format('DD/MM/YYYY')
-const fiveDayImageIcon = fiveDayData.list[indexes[i]].weather.icon
-var currentWeatherIcon = `https://openweathermap.org/img/wn/${fiveDayImageIcon}@2x.png`
-var weatherIconData = `<img src="${currentWeatherIcon}" alt="Weather Icon>`
 
 const forecastCard = $('<div>').addClass(`col-lg-2 col-md-6 forecast-card-${indexes[i]} forecast-card`)
 
 $('#forecast-container').append(forecastCard)
 
-
+ const fiveDayImageIcon = fiveDayData.list[indexes[i]].weather[0].icon
+ const currentWeatherIcon = `https://openweathermap.org/img/wn/${fiveDayImageIcon}@2x.png`
+ const weatherIconData = `<img src="${currentWeatherIcon}" alt="Weather Icon>`
+ let fiveDayWeatherIcon = $('<img>').attr({src:`https://openweathermap.org/img/wn/${fiveDayImageIcon}@2x.png`, width: "35", alt: "Weather Icon"})
  const dayPlusOneTemp = (fiveDayData.list[indexes[i]].main.temp - 273.15).toFixed(2)
  const dayOneTemp = $('<p>').text(`Temp: ${dayPlusOneTemp}\u00B0C`)
  const dayPlusOneWind = fiveDayData.list[indexes[i]].wind.speed
@@ -91,10 +91,11 @@ $('#forecast-container').append(forecastCard)
  const dayPlusOneHumidity = fiveDayData.list[indexes[i]].main.humidity
  const dayOneHumidity = $('<p>').text(`Humidity: ${dayPlusOneHumidity}%`)
 
-var dayOneWeather = $(forecastCard).html(`<h4>${formattedDayPlusOne} ${weatherIconData}</h4>`)
+
+var dayOneWeather = $(forecastCard).html(`<h4>${formattedDayPlusOne} </h4>`)
 console.log(weatherIconData)
 
-$(dayOneWeather).append(dayOneTemp, dayOneWind, dayOneHumidity);
+$(dayOneWeather).append(fiveDayWeatherIcon, dayOneTemp, dayOneWind, dayOneHumidity);
 }
 
     })
@@ -124,10 +125,10 @@ fetch(currentWeatherUrl)
     var currentHumidity = $('<p>').text(`Humidity: ${humidity}%`)
     var weatherIcon = currentData.weather[0].icon
     var currentWeatherIcon = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`
-    var weatherIconData = `<img src="${currentWeatherIcon}" alt="Current Weather Icon>`
-console.log(weatherIconData)
+    var currentWeatherIconData = `<img src="${currentWeatherIcon}" alt="Current Weather Icon>`
+console.log(currentWeatherIconData)
 
-    var currentWeather = $('#today').html(`<h3>${city} (${formattedTime}) ${weatherIconData}  </h3>`)
+    var currentWeather = $('#today').html(`<h3>${city} (${formattedTime}) ${currentWeatherIconData}  </h3>`)
     
 
     $(currentWeather).append(currentTemp, currentWind, currentHumidity)
@@ -171,9 +172,6 @@ for (let i=0; i<locations.length; i++) {
 
 renderButtons()
     
-
-// Remove History if Empty button is clicked
-
 
 }
 )
