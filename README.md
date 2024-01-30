@@ -21,4 +21,19 @@ To review the quiz, please follow this URL: https://github.com/MichaelFriel/weat
 
 ## Usage Guide
 
-The usage for this application is very simple 
+The usage for this application is very simple and is as follows:
+* When the application loads, the user can see a Search Bar and some empty content areas.
+* Add a City in the search bar, which will load the current weather plus the five day forecast.
+* If the exact City is not within the database, it will move to an area within the city.
+  * e.g. if the user searches Barcelona, the name shown is Sant Pere, Santa Caterina i La Ribera, which is a town in Barcelona.
+* Once the user has searched, a button containing the city text will be displayed within the Search History section.
+* These buttons can be used to revisit old searches and the list can be deleted by clicking Empty History.
+
+![Screenshot showing the application upon page load](assets/images/application-page-load.png)
+*This image shows the application upon page load*
+
+![Screenshot showing the weather in Los Angeles](assets/images/los-angeles-weather.png)
+*This image shows the current weather in Los Angeles and a Five-Day Forecast*
+
+## Credits
+This application relies on the OpenWeatherMap API: https://openweathermap.org/api
