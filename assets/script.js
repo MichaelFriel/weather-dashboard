@@ -128,16 +128,15 @@ fetch(currentWeatherUrl)
     var humidity = currentData.main.humidity
     var currentHumidity = $('<p>').text(`Humidity: ${humidity}%`)
     var weatherIcon = currentData.weather[0].icon
-    var currentWeatherIconData = $('<img>').attr({src:`https://openweathermap.org/img/wn/${weatherIcon}@2x.png`, width: "45", alt: "Weather Icon"})
+    var currentWeatherIconData = `<img src="https://openweathermap.org/img/wn/${weatherIcon}@2x.png" width="45" alt="Weather Icon">`
     console.log(currentWeatherIconData)
 
-    var currentWeather = $('#today').html(`<h3>${city} (${formattedTime})</h3>`)
-    
 
-    $(currentWeather).append(currentWeatherIconData, currentTemp, currentWind, currentHumidity)
+    var currentWeather = $('#today').html(`<h3>${city} (${formattedTime}) ${currentWeatherIconData}</h3>`)
 
+
+    $(currentWeather).append(currentTemp, currentWind, currentHumidity)
 })
-
 }
 
 // Dynamically adding searched items.
