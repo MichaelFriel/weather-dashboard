@@ -36,4 +36,9 @@ The usage for this application is very simple and is as follows:
 *This image shows the current weather in Los Angeles and a Five-Day Forecast*
 
 ## Credits
+
 This application relies on the OpenWeatherMap API: https://openweathermap.org/api
+
+## License
+
+Mit License can be found within the Git repository.
