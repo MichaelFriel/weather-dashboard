@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    // Locations is either empty, or what is in local storage.
 var locations = JSON.parse(localStorage.getItem("Cities")) || [];
 
 $('#empty-button').click(function () {
@@ -7,6 +8,8 @@ $('#empty-button').click(function () {
     locations = [];
 } 
 ) 
+
+// When search is submitted, empty the contents in the forecast and replace with new cards. Set new city in local storage.
 
 $('form').submit(function(event) {
     event.preventDefault();
@@ -17,14 +20,17 @@ $('form').submit(function(event) {
     
 renderButtons()
 
-   if (city) {
-   locationName(city) 
-    .then(({ longitude, latitude }) => {
-      return Promise.all([
-          fiveDayForecast(longitude, latitude),
-          currentWeather(longitude, latitude)
-      ]);
-  })
+// Once city has been provided, pass this to the locationName function. Then grab longitude and latitude from this function and pass the data as arguments to fiveDayForecast and currentWeather.
+
+
+if (city) {
+locationName(city) 
+.then(({ longitude, latitude }) => {
+    return Promise.all([
+        fiveDayForecast(longitude, latitude),
+        currentWeather(longitude, latitude)
+    ]);
+})
 }
 else {
     alert("You need to enter a City Name")
@@ -37,11 +43,11 @@ else {
 function locationName (city) {
     const locationNameUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=2ad7462410efb4917d0b0e1cf80ba5f6`
 
-   return fetch(locationNameUrl)
+return fetch(locationNameUrl)
     .then((response) => {
         return response.json();
-      })
-      .then((data) => {
+    })
+    .then((data) => {
         if (data.length > 0) {
             let longitude = data[0].lon;
             let latitude = data[0].lat;
@@ -50,7 +56,7 @@ function locationName (city) {
     })
 }
 
-// New fiveDayForecast fuction takes longitude and latitude as parameters and passes them to the 5 Day Forecast API
+// fiveDayForecast fuction takes longitude and latitude as parameters and passes them to the 5 Day Forecast API
 
 function fiveDayForecast (longitude, latitude) {
 
@@ -80,26 +86,23 @@ const forecastCard = $('<div>').addClass(`col-lg-2 col-md-6 forecast-card-${inde
 
 $('#forecast-container').append(forecastCard)
 
- const fiveDayImageIcon = fiveDayData.list[indexes[i]].weather[0].icon
- const currentWeatherIcon = `https://openweathermap.org/img/wn/${fiveDayImageIcon}@2x.png`
- const weatherIconData = `<img src="${currentWeatherIcon}" alt="Weather Icon>`
- let fiveDayWeatherIcon = $('<img>').attr({src:`https://openweathermap.org/img/wn/${fiveDayImageIcon}@2x.png`, width: "35", alt: "Weather Icon"})
- const dayPlusOneTemp = (fiveDayData.list[indexes[i]].main.temp - 273.15).toFixed(2)
- const dayOneTemp = $('<p>').text(`Temp: ${dayPlusOneTemp}\u00B0C`)
- const dayPlusOneWind = fiveDayData.list[indexes[i]].wind.speed
- const dayOneWind = $('<p>').text(`Wind: ${dayPlusOneWind} KPH`)
- const dayPlusOneHumidity = fiveDayData.list[indexes[i]].main.humidity
- const dayOneHumidity = $('<p>').text(`Humidity: ${dayPlusOneHumidity}%`)
-
+const fiveDayImageIcon = fiveDayData.list[indexes[i]].weather[0].icon
+const currentWeatherIcon = `https://openweathermap.org/img/wn/${fiveDayImageIcon}@2x.png`
+const weatherIconData = `<img src="${currentWeatherIcon}" alt="Weather Icon>`
+let fiveDayWeatherIcon = $('<img>').attr({src:`https://openweathermap.org/img/wn/${fiveDayImageIcon}@2x.png`, width: "35", alt: "Weather Icon"})
+const dayPlusOneTemp = (fiveDayData.list[indexes[i]].main.temp - 273.15).toFixed(2)
+const dayOneTemp = $('<p>').text(`Temp: ${dayPlusOneTemp}\u00B0C`)
+const dayPlusOneWind = fiveDayData.list[indexes[i]].wind.speed
+const dayOneWind = $('<p>').text(`Wind: ${dayPlusOneWind} KPH`)
+const dayPlusOneHumidity = fiveDayData.list[indexes[i]].main.humidity
+const dayOneHumidity = $('<p>').text(`Humidity: ${dayPlusOneHumidity}%`)
 
 var dayOneWeather = $(forecastCard).html(`<h4>${formattedDayPlusOne} </h4>`)
 console.log(weatherIconData)
 
 $(dayOneWeather).append(fiveDayWeatherIcon, dayOneTemp, dayOneWind, dayOneHumidity);
 }
-
     })
-
 }
 
 //   // This is the fetch for today's weather and current weather HTML
@@ -111,9 +114,10 @@ const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=$
 fetch(currentWeatherUrl)
 .then((response) => {
     return response.json();
-  })
-  .then((currentData) => {
+})
+.then((currentData) => {
 
+    // DOM elements 
     var time = dayjs()
     var formattedTime = time.format("DD/MM/YYYY")
     var temp = (currentData.main.temp - 273.15).toFixed(2)
@@ -124,28 +128,26 @@ fetch(currentWeatherUrl)
     var humidity = currentData.main.humidity
     var currentHumidity = $('<p>').text(`Humidity: ${humidity}%`)
     var weatherIcon = currentData.weather[0].icon
-    var currentWeatherIcon = `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`
-    var currentWeatherIconData = `<img src="${currentWeatherIcon}" alt="Current Weather Icon>`
-console.log(currentWeatherIconData)
+    var currentWeatherIconData = $('<img>').attr({src:`https://openweathermap.org/img/wn/${weatherIcon}@2x.png`, width: "45", alt: "Weather Icon"})
+    console.log(currentWeatherIconData)
 
-    var currentWeather = $('#today').html(`<h3>${city} (${formattedTime}) ${currentWeatherIconData}  </h3>`)
+    var currentWeather = $('#today').html(`<h3>${city} (${formattedTime})</h3>`)
     
 
-    $(currentWeather).append(currentTemp, currentWind, currentHumidity)
-   
-  })
+    $(currentWeather).append(currentWeatherIconData, currentTemp, currentWind, currentHumidity)
+
+})
 
 }
-
 
 // Dynamically adding searched items.
 
 function renderButtons () {
 
     $('#history').empty()
-   
+
 for (let i=0; i<locations.length; i++) {
-  
+
     var location = $('<button>')
     location.attr('type', "submit")
     location.addClass("btn search-button d-block")
@@ -157,21 +159,18 @@ for (let i=0; i<locations.length; i++) {
         let city = this.textContent
         $('#forecast-container').empty()
         
-        if (city) {
-            locationName(city) 
-             .then(({ longitude, latitude }) => {
-               return Promise.all([
-                   fiveDayForecast(longitude, latitude),
-                   currentWeather(longitude, latitude)
-               ]);
-           })
-         }
-    })
+    if (city) {
+        locationName(city) 
+            .then(({ longitude, latitude }) => {
+            return Promise.all([
+                fiveDayForecast(longitude, latitude),
+                currentWeather(longitude, latitude)
+            ]);
+        })
+        }
+})
 }
 }
-
 renderButtons()
-    
-
 }
 )
